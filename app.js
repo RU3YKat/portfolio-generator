@@ -61,7 +61,7 @@ const promptProject = portfolioData => {
             {
                 type: 'input',
                 name: 'name',
-                message: 'What is the name of your project? (required)',
+                message: 'What is the name of your project? (Required)',
                 validate: nameInput => {
                     if (nameInput) {
                         return true;
@@ -115,7 +115,7 @@ const promptProject = portfolioData => {
                 message: 'Would you like to enter another project?',
                 default: false
             }
-    ])
+        ])
     .then(projectData => {
         portfolioData.projects.push(projectData);
         if (projectData.confirmAddProject) {
@@ -129,15 +129,16 @@ const promptProject = portfolioData => {
 promptUser()
     .then(promptProject)
     .then(portfolioData => {
-        console.log(portfolioData);
-});
+        const pageHTML = generatePage(portfolioData);
+
+        fs.writeFile('./index.html', pageHTML, err => {
+            if (err) throw new Error(err);
+            console.log('Page created! Check out index.html in this directory to see it!')
+
+        });
+    });
 
 
-// const pageHTML = generatePage(name, github);
-// fs.writeFile('./index.html', pageHTML, err => {
-//     if (err) throw err;
-//     console.log('Portfolio complete! Check out index.html to see the output!')
-// });
 
 // const printProfileData = (profileDataArr) => {
 //     // This...
@@ -152,6 +153,4 @@ promptUser()
 //     console.log('===============');
 //     // And the same as this...
 //     profileDataArr.forEach(profileItem => console.log(profileItem));
-// };
-// 
-
+// }
